@@ -1,33 +1,26 @@
 #include <bits/stdc++.h>
-using namespace std;
+#define INF 987654321
 typedef long long ll;
 
-int arr[101];
+using namespace std;
 
-int main(){
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
 
-    int n, m, Max = 0;
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
 
-    cin >> n >> m;
 
-    for(int i = 0; i < n; i++)
-        cin >> arr[i];
+  ll n;
+  cin >> n;
 
-    for(int i = 0; i < n; i++){
-        for(int j = i + 1; j < n; j++){
-            for(int k = j + 1; k < n; k++){
-                int sum = arr[i] + arr[j] + arr[k];
-                if (sum <= m){
-                    Max = max(Max, sum);
-                }
-            }
-        }
-    }
+  // (n - 2) + (n - 3) + ... + 2 + 1 == (n - 2)(n - 1) / 2
+  // (n - 3) + (n - 2) + ... + 2 + 1 == (n - 3)(n - 2) / 2
+  ll result = 0;
+  for(int i = 1; i <= n - 2; i++) {
+    result += (n - 1 - i) * (n - i) / 2;
+  }
+  cout << result << "\n3\n";
 
-    cout << Max << endl;
-
-    return 0;
+  return 0;
 }

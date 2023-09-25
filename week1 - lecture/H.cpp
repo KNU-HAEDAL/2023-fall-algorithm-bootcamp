@@ -1,39 +1,33 @@
 #include <bits/stdc++.h>
-#define INF 987654321
-typedef long long ll;
 using namespace std;
+typedef long long ll;
 
+int arr[101];
 
-int n;
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-int solve() {
-  for(int i = 1; i < n; i++){
-    int sum, number;
-    sum = number = i;
+    int n, m, Max = 0;
 
-    while(number > 0){
-      sum += number % 10;
+    cin >> n >> m;
 
-      number /= 10;
+    for(int i = 0; i < n; i++)
+        cin >> arr[i];
+
+    for(int i = 0; i < n; i++){
+        for(int j = i + 1; j < n; j++){
+            for(int k = j + 1; k < n; k++){
+                int sum = arr[i] + arr[j] + arr[k];
+                if (sum <= m){
+                    Max = max(Max, sum);
+                }
+            }
+        }
     }
 
-    if (sum == n){
-      return i;
-    }
-  }
+    cout << Max << endl;
 
-  return 0;
-}
-
-int main() {
-  ios::sync_with_stdio(false);
-  cin.tie(NULL);
-  cout.tie(NULL);
-
-
-  cin >> n;
-
-  cout << solve() << endl;
-
-  return 0;
+    return 0;
 }
