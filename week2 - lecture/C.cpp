@@ -5,56 +5,46 @@ typedef long long ll;
 using namespace std;
 
 
+int n, m, r, cnt = 1;
+int visited[100001];
+vector<vector<int>> graph(100001);
+
+void dfs(int cur) {
+  visited[cur] = cnt++;
+
+  for(int i = 0; i < graph[cur].size(); i++) {
+    int next = graph[cur][i];
+
+    if (!visited[next]) {
+       dfs(next);
+    }
+  }
+}
+
 int main() {
   ios::sync_with_stdio(false);
   cin.tie(NULL);
   cout.tie(NULL);
 
 
-  int n;
-  cin >> n;
+  cin >> n >> m >> r;
+  for(int i = 0; i < m; i++) {
+    int tail, head;
+    cin >> tail >> head;
 
-  queue<int> q;
-  for(int i = 0; i < n; i++) {
-    string operation;
-    cin >> operation;
-
-    if (operation == "push") {
-      int operand;
-      cin >> operand;
-      q.push(operand);
-    }
-    else if (operation == "pop") {
-      if (q.empty()) {
-        cout << -1 << "\n";
-      }
-      else {
-        cout << q.front() << "\n";
-        q.pop();
-      }
-    }
-    else if (operation == "size") {
-      cout << q.size() << "\n";
-    }
-    else if (operation == "empty") {
-      cout << (q.empty() ? 1 : 0) << "\n";
-    }
-    else if (operation == "front") {
-      if (q.empty()) {
-        cout << -1 << "\n";
-      }
-      else {
-        cout << q.front() << "\n";
-      }
-    }
-    else {
-      if (q.empty()) {
-        cout << -1 << "\n";
-      }
-      else {
-        cout << q.back() << "\n";
-      }
-    }
+    graph[tail].push_back(head);
+    graph[head].push_back(tail);
   }
+
+  for(int i = 1; i <= n; i++) {
+    sort(graph[i].begin(), graph[i].end());
+  }
+
+  dfs(r);
+
+  for(int i = 1; i <= n; i++) {
+    cout << visited[i] << "\n";
+  }
+
   return 0;
 }

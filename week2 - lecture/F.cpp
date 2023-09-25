@@ -4,24 +4,39 @@ typedef long long ll;
 
 using namespace std;
 
+int dx[] = {0, 1, 0, -1};
+int dy[] = {-1, 0, 1, 0};
 
-int n, m, r, cnt = 1;
-int visited[100001];
-vector<vector<int>> graph(100001);
+string board[100];
+bool visited[100][100];
+int n, m;
 
-void bfs(int start) {
-  queue<int> q;
-  q.push(start);
-  visited[start] = cnt++;
+bool isInside(int y, int x) {
+  return 0 <= y && y < n && 0 <= x && x < m;
+}
 
+int bfs() {
+  int endY = n - 1, endX = m - 1;
+  queue<pair<pair<int, int>, int>> q;
+
+  q.push({{0, 0}, 1});
   while(!q.empty()) {
-    int cur = q.front();
+    int curY = q.front().first.first;
+    int curX = q.front().first.second;
+    int distance = q.front().second;
     q.pop();
 
-    for(int next : graph[cur]) {
-      if (!visited[next]) {
-        visited[next] = cnt++;
-        q.push(next);
+    if (curY == endY && curX == endX) {
+      return distance;
+    }
+
+    for (int i = 0 ; i < 4; i++) {
+      int ny = curY + dy[i];
+      int nx = curX + dx[i];
+
+      if (isInside(ny, nx) && !visited[ny][nx] && board[ny][nx] == '1') {
+        visited[ny][nx] = true;
+        q.push({{ny, nx}, distance + 1});
       }
     }
   }
@@ -32,25 +47,12 @@ int main() {
   cin.tie(NULL);
   cout.tie(NULL);
 
-
-  cin >> n >> m >> r;
-  for(int i = 0; i < m; i++) {
-    int tail, head;
-    cin >> tail >> head;
-
-    graph[tail].push_back(head);
-    graph[head].push_back(tail);
+  cin >> n >> m;
+  for(int i = 0; i < n; i++) {
+    cin >> board[i];
   }
 
-  for(int i = 1; i <= n; i++) {
-    sort(graph[i].begin(), graph[i].end());
-  }
-
-  bfs(r);
-
-  for(int i = 1; i <= n; i++) {
-    cout << visited[i] << "\n";
-  }
+  cout << bfs() << endl;
 
   return 0;
 }

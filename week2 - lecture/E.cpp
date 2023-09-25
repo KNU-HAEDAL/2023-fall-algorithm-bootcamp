@@ -5,21 +5,42 @@ typedef long long ll;
 using namespace std;
 
 
-int n, m, r, cnt = 1;
-int visited[100001];
-vector<vector<int>> graph(100001);
+vector<vector<int>> graph;
 
-void dfs(int cur) {
-  visited[cur] = cnt++;
+void dfs(int cur, vector<bool> &visited) {
+  visited[cur] = true;
+  cout << cur << " ";
 
-  for(int i = 0; i < graph[cur].size(); i++) {
-    int next = graph[cur][i];
-
-    if (!visited[next]) {
-       dfs(next);
+  for(int next : graph[cur]) {
+    if (not visited[next]) {
+      dfs(next, visited);
     }
   }
 }
+
+void bfs(int start, vector<bool> &visited) {
+  queue<int> q;
+
+  q.push(start);
+  visited[start] = true;
+
+  while(not q.empty()) {
+    int cur = q.front();
+    q.pop();
+
+    cout << cur << " ";
+
+    for(int next : graph[cur]) {
+      if (not visited[next]) {
+        visited[next] = true;
+        q.push(next);
+      }
+    }
+  }
+
+  cout << endl;
+}
+
 
 int main() {
   ios::sync_with_stdio(false);
@@ -27,24 +48,29 @@ int main() {
   cout.tie(NULL);
 
 
-  cin >> n >> m >> r;
-  for(int i = 0; i < m; i++) {
-    int tail, head;
-    cin >> tail >> head;
+  int n, m, start;
+  cin >> n >> m >> start;
 
-    graph[tail].push_back(head);
-    graph[head].push_back(tail);
+  graph = vector<vector<int>>(n + 1);
+
+  for(int i = 0; i < m; i++) {
+    int a, b;
+    cin >> a >> b;
+
+    graph[a].push_back(b);
+    graph[b].push_back(a);
   }
 
   for(int i = 1; i <= n; i++) {
     sort(graph[i].begin(), graph[i].end());
   }
 
-  dfs(r);
+  vector<bool> visited(n + 1, false);
+  dfs(start, visited);
+  cout << endl;
 
-  for(int i = 1; i <= n; i++) {
-    cout << visited[i] << "\n";
-  }
+  visited = vector<bool>(n + 1, false);
+  bfs(start, visited);
 
   return 0;
 }
