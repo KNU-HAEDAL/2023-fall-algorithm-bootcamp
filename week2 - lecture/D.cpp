@@ -12,7 +12,7 @@ vector<vector<int>> graph(100001);
 void bfs(int start) {
   queue<int> q;
   q.push(start);
-  visited[start] = cnt++;
+  visited[start] = true;
 
   while(!q.empty()) {
     int cur = q.front();
@@ -20,7 +20,7 @@ void bfs(int start) {
 
     for(int next : graph[cur]) {
       if (!visited[next]) {
-        visited[next] = cnt++;
+        visited[next] = true;
         q.push(next);
       }
     }

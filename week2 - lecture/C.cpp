@@ -9,6 +9,8 @@ int n, m, r, cnt = 1;
 int visited[100001];
 vector<vector<int>> graph(100001);
 
+// graph == 그래프의 정점과 간선의 정보를 담고 있는 배열
+
 void dfs(int cur) {
   visited[cur] = cnt++;
 

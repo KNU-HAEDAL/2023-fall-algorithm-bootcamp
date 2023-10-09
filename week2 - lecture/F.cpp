@@ -6,6 +6,7 @@ using namespace std;
 
 int dx[] = {0, 1, 0, -1};
 int dy[] = {-1, 0, 1, 0};
+// {0, -1}, {1, 0}, {0, 1}, {-1, 0}
 
 string board[100];
 bool visited[100][100];
@@ -19,6 +20,7 @@ int bfs() {
   int endY = n - 1, endX = m - 1;
   queue<pair<pair<int, int>, int>> q;
 
+  // pair
   q.push({{0, 0}, 1});
   while(!q.empty()) {
     int curY = q.front().first.first;
